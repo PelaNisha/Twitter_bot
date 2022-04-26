@@ -1,10 +1,11 @@
 # twitter bot using requests
-
 import requests
 import os
 import json
 
+
 bearer_token = os.environ.get("BEARER_TOKEN")
+
 
 def bearer_oauth(r):
     r.headers["Authorization"] = f"Bearer {bearer_token}"
@@ -37,4 +38,13 @@ def tweets_with_keywords_hashtags():
     json_response = connect_to_endpoint(search_url, query_params)
     print(json.dumps(json_response, indent=4, sort_keys=True))
 
-tweets_with_keywords_hashtags()    
+
+def tweets_with_exact_phrase():
+    phrase = input("Enter the phrase: ")
+    search_url = "https://api.twitter.com/2/tweets/search/recent"
+    query_params = {'query':'("'+phrase+'") lang:en -birthday -is:retweet'}
+    json_response = connect_to_endpoint(search_url, query_params)
+    print(json.dumps(json_response, indent=4, sort_keys=True))
+
+    
+tweets_with_exact_phrase()    
