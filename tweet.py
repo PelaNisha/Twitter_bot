@@ -64,5 +64,11 @@ def tweets_with_hashtag():
 #     json_response = connect_to_endpoint(search_url, query_params)
 #     print(json.dumps(json_response, indent=4, sort_keys=True))
 
+def retweets_of_a_user():
+    twitter_user = input("Enter the username")
+    search_url = "https://api.twitter.com/2/tweets/search/recent"
+    query_params = {'query': '(retweets_of:'+twitter_user+')','tweet.fields': 'author_id' , 'max_results':15}
+    json_response = connect_to_endpoint(search_url, query_params)
+    print(json.dumps(json_response, indent=4, sort_keys=True))
 
-tweets_with_hashtag()
+retweets_of_a_user()
