@@ -1,11 +1,11 @@
 # twitter bot using requests
+
+from urllib import response
 import requests
 import os
 import json
 
-
 bearer_token = os.environ.get("BEARER_TOKEN")
-
 
 def bearer_oauth(r):
     r.headers["Authorization"] = f"Bearer {bearer_token}"
@@ -46,5 +46,23 @@ def tweets_with_exact_phrase():
     json_response = connect_to_endpoint(search_url, query_params)
     print(json.dumps(json_response, indent=4, sort_keys=True))
 
-    
-tweets_with_exact_phrase()    
+
+def tweets_with_hashtag():
+    hashtag = input("Enter the hashtag: #")
+    search_url = "https://api.twitter.com/2/tweets/search/recent"
+    query_params = {'query': '#'+hashtag+"'",'tweet.fields': 'author_id' , 'max_results':15}
+
+    json_response = connect_to_endpoint(search_url, query_params)
+    print(json.dumps(json_response, indent=4, sort_keys=True))
+
+
+# REQUIRES ELEVATED ACCESS VIA DEVELOPER PORTAL
+# def user_info():
+#     search_url = 'https://api.twitter.com/1.1/users/show.json'
+#     url = 'https://api.twitter.com/1.1/users/lookup.json?screen_name=twitterapi'
+#     query_params = None
+#     json_response = connect_to_endpoint(search_url, query_params)
+#     print(json.dumps(json_response, indent=4, sort_keys=True))
+
+
+tweets_with_hashtag()
