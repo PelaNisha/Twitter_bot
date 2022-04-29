@@ -1,5 +1,4 @@
 # twitter bot using requests
-
 from urllib import response
 import requests
 import os
@@ -7,10 +6,12 @@ import json
 
 bearer_token = os.environ.get("BEARER_TOKEN")
 
+
 def bearer_oauth(r):
     r.headers["Authorization"] = f"Bearer {bearer_token}"
     r.headers["User-Agent"] = "v2RecentSearchPython"
     return r
+
 
 def connect_to_endpoint(url, params):
     response = requests.get(url, auth=bearer_oauth, params=params)
@@ -71,4 +72,5 @@ def retweets_of_a_user():
     json_response = connect_to_endpoint(search_url, query_params)
     print(json.dumps(json_response, indent=4, sort_keys=True))
 
+    
 retweets_of_a_user()
