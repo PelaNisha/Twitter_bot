@@ -73,14 +73,13 @@ def get_tweets():
 def get_filtered_tweets(x):
 	li = []
 	y = x['data']['user']['result']["timeline_v2"]["timeline"]['instructions'][1]['entries']
-	# print(len(y))
-	# s = y['entries']
-	for i in range(0,5):
-		p = y[i]["content"]['itemContent']['tweet_results']['result']['legacy']
-		# print(p)
-		filtered_output = {"created_at":p["created_at"],"full_text":p["full_text"], "retweet_count":p["retweet_count"],"reply_count":p["reply_count"],
-				"quote_count":p["quote_count"]}
-		li.append(filtered_output)		
+	for i in range(0,40): 
+		if 'itemContent' in y[i]["content"].keys():
+			p = y[i]["content"]['itemContent']['tweet_results']['result']['legacy']
+			# print(p)
+			filtered_output = {"created_at":p["created_at"],"full_text":p["full_text"], "retweet_count":p["retweet_count"],"reply_count":p["reply_count"],
+					"quote_count":p["quote_count"]}
+			li.append(filtered_output)		
 	# print(li)
 	return li
 
