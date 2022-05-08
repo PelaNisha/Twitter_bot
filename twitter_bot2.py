@@ -17,12 +17,12 @@ def get_guest_token():
 	url = "	https://api.twitter.com/1.1/guest/activate.json"
 	Headers = {"Authorization":bearer_token, 'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:99.0) Gecko/20100101 Firefox/99.0','content-type':'application/x-www-form-urlencoded'}
 	response = requests.post(url, headers=Headers)
-	b = response.json()
-	token = b['guest_token']
+	r = response.json()
+	token = r['guest_token']
 	return token
 
 
-def get_info():	
+def get_user_data():	
 	token = read_file('token.json')
 	url = 'https://twitter.com/i/api/graphql/Bhlf1dYJ3bYCKmLfeEQ31A/UserByScreenName?variables={"screen_name":"narendramodi","withSafetyModeUserFields":true,"withSuperFollowsUserFields":true}'
 	Headers = {"Authorization":bearer_token,"User-Agent":user_agent,"x-guest-token" : token}
@@ -33,7 +33,7 @@ def get_info():
 		f = open('token.json', 'r+')
 		f.truncate(0) 
 		save_to_file(token, 'token.json')
-		return get_info()
+		return get_user_data()
 		
 	# print("Status Code", response.status_code)
 	return response.json()
@@ -44,13 +44,13 @@ def save_to_file(final_result,filename):
 		json.dump(final_result, f, indent = 2)
 
 
-def get_user_data(x):
+def get_filtered_data(x):
 	y = x['data']['user']['result']['legacy']
-	output = {'created at':y['created_at'], "description":y["description"],"followers_count":y["followers_count"],
+	filtered_output = {'created at':y['created_at'], "description":y["description"],"followers_count":y["followers_count"],
 			 "friends_count":y[ "friends_count"],"location":y["location"],"name":y["name"],}
-	return output
+	return filtered_output
 
 
-x = get_info()
-o = get_user_data(x)
+x = get_user_data()
+o = get_filtered_data(x)
 save_to_file(o, 'file.json')
