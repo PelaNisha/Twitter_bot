@@ -80,6 +80,5 @@ def get_filtered_tweets(x):
 
 # Function calling and user input
 username = input("Enter the usename: ")
-unfiltered_user_data = get_user_data(username)
-final_user_data = get_user_profile_filtered_data(unfiltered_user_data)
-save_to_file(final_user_data, 'tweets.json')
+user_data = get_user_profile_filtered_data(get_user_data(username))
+save_to_file(user_data, 'tweets.json')
