@@ -1,4 +1,5 @@
 # twitter bot to scrape latest tweets and user-public-info
+from re import U
 import requests
 import os 
 import json
@@ -31,7 +32,7 @@ def get_guest_token():
 	return token
 
 
-def check_if_token_valid(url):
+def check_token_and_get_response(url):
 	token = read_file('token.json')
 	Headers = {"Authorization":bearer_token,"User-Agent":user_agent,"x-guest-token" : token}
 	response = requests.get(url, headers=Headers)
@@ -47,7 +48,7 @@ def check_if_token_valid(url):
 # Get the user's public data
 def get_user_data(username):	
 	url = 'https://twitter.com/i/api/graphql/Bhlf1dYJ3bYCKmLfeEQ31A/UserByScreenName?variables={"screen_name":"'+username+'","withSafetyModeUserFields":true,"withSuperFollowsUserFields":true}'
-	return check_if_token_valid(url)
+	return check_token_and_get_response(url)
 
 
 # Get user profile filtered data
@@ -61,7 +62,7 @@ def get_user_profile_filtered_data(x):
 # Get the latest tweets unfiltered data upt 40
 def get_tweets():
 	url = 'https://twitter.com/i/api/graphql/07VfD4dpV9RcW5dsbCjYuQ/UserTweets?variables={"userId":"1349149096909668363","count":40,"includePromotedContent":true,"withQuickPromoteEligibilityTweetFields":true,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true,"withVoice":true,"withV2Timeline":true,"__fs_responsive_web_like_by_author_enabled":false,"__fs_dont_mention_me_view_api_enabled":true,"__fs_interactive_text_enabled":true,"__fs_responsive_web_uc_gql_enabled":false,"__fs_responsive_web_edit_tweet_api_enabled":false}'
-	return check_if_token_valid(url)
+	return check_token_and_get_response(url)
 
 
 # Get the filtered tweet's data
@@ -77,7 +78,8 @@ def get_filtered_tweets(x):
 	return li
 
 
-# function calling 
-x = get_user_data("POTUS")
+# Function calling and user input
+username = input("Enter the usename: ")
+x = get_user_data(username)
 o = get_user_profile_filtered_data(x)
 save_to_file(o, 'tweets.json')
