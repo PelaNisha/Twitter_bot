@@ -4,6 +4,7 @@ import requests
 import os
 import json
 
+
 bearer_token = os.environ.get("BEARER_TOKEN")
 
 
@@ -56,14 +57,6 @@ def tweets_with_hashtag():
     json_response = connect_to_endpoint(search_url, query_params)
     print(json.dumps(json_response, indent=4, sort_keys=True))
 
-
-# REQUIRES ELEVATED ACCESS VIA DEVELOPER PORTAL
-# def user_info():
-#     search_url = 'https://api.twitter.com/1.1/users/show.json'
-#     url = 'https://api.twitter.com/1.1/users/lookup.json?screen_name=twitterapi'
-#     query_params = None
-#     json_response = connect_to_endpoint(search_url, query_params)
-#     print(json.dumps(json_response, indent=4, sort_keys=True))
 
 def retweets_of_a_user():
     twitter_user = input("Enter the username")
